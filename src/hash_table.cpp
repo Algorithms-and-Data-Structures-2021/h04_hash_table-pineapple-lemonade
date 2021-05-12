@@ -20,7 +20,6 @@ namespace itis {
   }
 
   std::optional<std::string> HashTable::Search(int key) const {
-    // Tip: compute hash code (index) and use linear search
       int index = hash(key);
       for (const auto& pair : buckets_[index]){
           if (pair.first == key) {
@@ -31,8 +30,6 @@ namespace itis {
   }
 
   void HashTable::Put(int key, const std::string &value) {
-      // Tip 1: compute hash code (index) to determine which bucket to use
-      // Tip 2: consider the case when the key exists (read the docs in the header file)
       int index = hash(key);
       for (std::pair<int, std::string> &pair: buckets_[index]){
           if (pair.first == key) {
@@ -43,8 +40,6 @@ namespace itis {
       buckets_[index].push_back(std::pair(key, value));
       num_keys_++;
       if (static_cast<double>(num_keys_) / buckets_.size() >= load_factor_) {
-          // Tip 3: recompute hash codes (indices) for key-value pairs (create a new hash-table)
-          // Tip 4: use utils::hash(key, size) to compute new indices for key-value pairs
           std::vector<Bucket> new_buckets = std::vector<Bucket>{};
           new_buckets.resize(buckets_.size() * kGrowthCoefficient);
           for (Bucket &bucket : buckets_){
@@ -66,13 +61,10 @@ namespace itis {
               return value.second;
           }
       }
-      // Tip 1: compute hash code (index) to determine which bucket to use
-      // TIp 2: find the key-value pair to remove and make a copy of value to return
       return std::nullopt;
   }
 
   bool HashTable::ContainsKey(int key) const {
-      // Note: uses Search(key) which is not initially implemented
       return Search(key).has_value();
   }
 
